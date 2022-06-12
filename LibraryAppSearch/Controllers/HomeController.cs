@@ -28,13 +28,28 @@ namespace LibraryAppSearch.Controllers
 
             if (!string.IsNullOrWhiteSpace(query))
             {
+                // Búsqueda en múltiples campos mediante claúsulas Match y Field
+                //results = _ecclient.Search<Book>(s => s
+                //    .Query(q => q
+                //    .Match(t => t
+                //            .Field(f => f.Title).Field(f => f.Authors)
+                //            .Query(query)
+                //        )
+                //    )                    
+                //);
+
+                // Búsqueda en múltiples campos mediante claúsulas Bool, Should y Term
                 results = _ecclient.Search<Book>(s => s
                     .Query(q => q
-                    .Match(t => t
-                            .Field(f => f.Title).Field(f => f.Authors)
-                            .Query(query)
+                        .Bool(b => b
+                            .Should(
+                                bs => bs.Term(t => t.Title, query),
+                                bs => bs.Term(t => t.Isbn, query),
+                                bs => bs.Term(t => t.Authors, query),
+                                bs => bs.Term(t => t.Categories, query)
+                            )
                         )
-                    )                    
+                    )
                 );
             }
             else
