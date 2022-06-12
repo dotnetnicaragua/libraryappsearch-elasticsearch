@@ -21,9 +21,18 @@ namespace LibraryAppSearch.Controllers
             _ecclient = elasticClient;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string query)
         {
-            return View();
+            ISearchResponse<Book> results;
+            query = query.ToLower();
+
+            results = _ecclient.Search<Book>(s => s
+              .Query(q => q
+              .MatchAll()
+              )
+          );
+
+            return View(results);
         }
 
         public IActionResult Privacy()
