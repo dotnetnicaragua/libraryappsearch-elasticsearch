@@ -60,6 +60,18 @@ namespace LibraryAppSearch.Controllers
                  )
                  .Size(25) // Indicar cantidad de registros devueltos, por defecto se limita a 10
                 );
+
+                // Implementación de Aggregations (agregados)
+                results = _ecclient.Search<Book>(s => s
+                    .Query(q => q
+                        .MatchAll()
+                    )
+                    .Aggregations(a => a
+                        .Terms("categories", t => t
+                            .Field("categories.keyword")
+                        )
+                    )
+                );
             }
 
             return View(results);
