@@ -34,15 +34,16 @@ namespace LibraryAppSearch.Controllers
                             .Field(f => f.Title)
                             .Query(query)
                         )
-                    )
+                    )                    
                 );
             }
             else
             {
                 results = _ecclient.Search<Book>(s => s
                  .Query(q => q
-                 .MatchAll()
-                    )
+                    .MatchAll()
+                 )
+                 .Size(25) // Indicar cantidad de registros devueltos, por defecto se limita a 10
                 );
             }
 
