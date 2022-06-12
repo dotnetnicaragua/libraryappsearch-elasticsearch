@@ -1,6 +1,7 @@
 ﻿using LibraryAppSearch.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,10 +13,12 @@ namespace LibraryAppSearch.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ElasticClient _ecclient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ElasticClient elasticClient)
         {
             _logger = logger;
+            _ecclient = elasticClient;
         }
 
         public IActionResult Index()
