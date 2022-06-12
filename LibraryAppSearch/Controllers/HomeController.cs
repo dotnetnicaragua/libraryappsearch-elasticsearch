@@ -31,7 +31,7 @@ namespace LibraryAppSearch.Controllers
                 results = _ecclient.Search<Book>(s => s
                     .Query(q => q
                     .Match(t => t
-                            .Field(f => f.Title)
+                            .Field(f => f.Title).Field(f => f.Authors)
                             .Query(query)
                         )
                     )                    
