@@ -24,7 +24,7 @@ namespace LibraryAppSearch.Controllers
         public IActionResult Index(string query)
         {
             ISearchResponse<Book> results;
-            query = query.ToLower();
+            query = query?.ToLower();
 
             results = _ecclient.Search<Book>(s => s
               .Query(q => q
