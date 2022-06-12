@@ -26,11 +26,25 @@ namespace LibraryAppSearch.Controllers
             ISearchResponse<Book> results;
             query = query?.ToLower();
 
-            results = _ecclient.Search<Book>(s => s
-              .Query(q => q
-              .MatchAll()
-              )
-          );
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                results = _ecclient.Search<Book>(s => s
+                    .Query(q => q
+                    .Match(t => t
+                            .Field(f => f.Title)
+                            .Query(query)
+                        )
+                    )
+                );
+            }
+            else
+            {
+                results = _ecclient.Search<Book>(s => s
+                 .Query(q => q
+                 .MatchAll()
+                    )
+                );
+            }
 
             return View(results);
         }
